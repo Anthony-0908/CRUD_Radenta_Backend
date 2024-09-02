@@ -1,0 +1,6 @@
+@CRUD_Radenta_HostAddress = http://localhost:5115
+
+GET {{CRUD_Radenta_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
