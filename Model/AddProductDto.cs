@@ -2,9 +2,9 @@
 {
     public class AddProductDto
     {
-        public int Id { get; set; }
+       //private int Id { get; set; }
 
-        public required string ProductName { get; set; }
+        public  string ProductName { get; set; } = string.Empty;
 
         public string ProductDescription { get; set; } = string.Empty;
 

@@ -3,6 +3,7 @@ using CRUD_Radenta.Model;
 using CRUD_Radenta.Model.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CRUD_Radenta.Controllers
@@ -41,18 +42,44 @@ namespace CRUD_Radenta.Controllers
         }
 
         [HttpPost]
+        [HttpPost]
         public IActionResult AddProduct(AddProductDto addProductDto)
         {
-            var productEntity = new Product()
-            { ProductName = addProductDto.ProductName, ProductDescription = addProductDto.ProductDescription, };
+            if (addProductDto == null)
+            {
+                return BadRequest("Product data is required.");
+            }
 
-            dbContext.Products.Add(productEntity);  
-            dbContext.SaveChanges();
-            return Ok(productEntity);
+            // Validate required fields
+            if (string.IsNullOrWhiteSpace(addProductDto.ProductName) ||
+                string.IsNullOrWhiteSpace(addProductDto.ProductDescription) ||
+                string.IsNullOrWhiteSpace(addProductDto.ProductCategory))
+            {
+                return BadRequest("Product name, description, and category are required.");
+            }
 
+            var productEntity = new Product
+            {
+                ProductName = addProductDto.ProductName,
+                ProductDescription = addProductDto.ProductDescription,
+                ProductCategory = addProductDto.ProductCategory,
+            };
 
-
+            try
+            {
+                dbContext.Products.Add(productEntity);
+                dbContext.SaveChanges();
+                return Ok(productEntity);
+            }
+            catch (DbUpdateException ex)
+            {
+                // Log the inner exception
+                var innerExceptionMessage = ex.InnerException?.Message ?? "Unknown error.";
+                return BadRequest($"Error saving to the database: {innerExceptionMessage}");
+            }
         }
+
+
 
         [HttpPut]
         [Route("{id:guid}")]
