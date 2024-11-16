@@ -23,9 +23,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(options =>
 {
-    options.AllowAnyOrigin();
-    options.AllowAnyMethod();
-    options.AllowAnyHeader();
+    options.WithOrigins("http://localhost:4200")  // Adjust to match your frontend URL
+           .AllowAnyMethod()
+           .AllowAnyHeader();
 });
 
 app.UseHttpsRedirection();

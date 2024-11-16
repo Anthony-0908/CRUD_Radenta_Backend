@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRUD_Radenta.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241027015022_NewMigration")]
-    partial class NewMigration
+    [Migration("20241028150635_Products")]
+    partial class Products
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

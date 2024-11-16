@@ -103,20 +103,22 @@ namespace CRUD_Radenta.Controllers
         }
 
 
-        [HttpDelete]
-        public IActionResult DeleteProduct(Guid Id) 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteProduct(int id)
         {
-            var product = dbContext.Products.Find(Id);
-                
-            if(product is null)
-            {  return NotFound(); }
+            var product = dbContext.Products.Find(id);  // Use id directly, since it's an int
 
+            if (product == null)
+            {
+                return NotFound();
+            }
 
             dbContext.Products.Remove(product);
             dbContext.SaveChanges();
 
             return Ok();
         }
+
 
 
 
