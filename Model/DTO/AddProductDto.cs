@@ -1,4 +1,4 @@
-﻿namespace CRUD_Radenta.Model
+﻿namespace CRUD_Radenta.Model.DTO
 {
     public class AddProductDto
     {

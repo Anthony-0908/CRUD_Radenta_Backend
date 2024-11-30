@@ -15,6 +15,22 @@ namespace CRUD_Radenta.Data
         public DbSet<Product> Products { get; set; }
 
 
+        public DbSet<JwtToken> JwtTokens { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<JwtToken>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Token).IsRequired();
+                entity.Property(e => e.UserId).IsRequired();
+                entity.Property(e => e.ExpiryDate).IsRequired();
+            });
+        }
+
+
 
     }
 }

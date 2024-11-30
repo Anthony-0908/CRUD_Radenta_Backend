@@ -1,5 +1,5 @@
 ﻿using CRUD_Radenta.Data;
-using CRUD_Radenta.Model;
+using CRUD_Radenta.Model.DTO;
 using CRUD_Radenta.Model.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +41,7 @@ namespace CRUD_Radenta.Controllers
             return Ok(product);
         }
 
-        [HttpPost]
+
         [HttpPost]
         public IActionResult AddProduct(AddProductDto addProductDto)
         {
@@ -81,28 +81,29 @@ namespace CRUD_Radenta.Controllers
 
 
 
-        [HttpPut]
-        [Route("{id:guid}")]
-
-        public IActionResult UpdateProduct(Guid Id, UpdateProdcutDto updateProductDto)
+        [HttpPut("{id}")]
+        public IActionResult UpdateProduct(int id, UpdateProdcutDto updateProductDto)
         {
-            var product = dbContext.Products.Find(Id);
-
-            if(product is null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();  
+                return BadRequest(ModelState);
             }
 
-            product.ProductDescription = updateProductDto.ProductDescription;   
+            var product = dbContext.Products.Find(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            product.ProductDescription = updateProductDto.ProductDescription;
             product.ProductName = updateProductDto.ProductName;
             product.ProductCategory = updateProductDto.ProductCategory;
-            
+
             dbContext.SaveChanges();
 
             return Ok();
         }
-
-
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct(int id)
         {
