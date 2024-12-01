@@ -1,8 +1,11 @@
-﻿namespace CRUD_Radenta.Model.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CRUD_Radenta.Model.Entities
 {
     public class Admin
     {
-        public Guid Id { get; set; }
+        [Key]
+        public int Id { get; set; }
 
         public required string Name { get; set; }
 
