@@ -1,6 +1,7 @@
 ﻿using CRUD_Radenta.Data;
 using CRUD_Radenta.Model.DTO;
 using CRUD_Radenta.Model.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,20 +20,21 @@ namespace CRUD_Radenta.Controllers
             this.dbContext = dbContext;
         }
 
-
+       
         [HttpGet]
         public IActionResult GetAllProducts()
         {
             var allProducts = dbContext.Products.ToList();
             return Ok(allProducts);
         }
-
+        [Authorize]
         [HttpGet]
-        [Route("{id:guid}")]
+        [Route("{id:int}")]
 
-        public IActionResult GetProudctById(Guid Id)
+        //[Authorize]
+        public IActionResult GetProudctById(int id)
         {
-            var product = dbContext.Products.Find(Id);
+            var product = dbContext.Products.Find(id);
             if(product is null)
             {
                 return NotFound();
